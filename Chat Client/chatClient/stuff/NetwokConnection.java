@@ -20,7 +20,7 @@ public class NetwokConnection {
 		out = new PrintWriter(outStream);
 	}
 	
-	
+	public 
 	
 	public void destructor () throws IOException
 	{

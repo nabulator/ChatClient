@@ -9,6 +9,7 @@ public class NetwokConnection {
 	private Socket socket;
 	private Scanner in;
 	private PrintWriter out;
+	private String message;
 	
 	public NetwokConnection(String host, int port) throws IOException
 	{
@@ -20,9 +21,46 @@ public class NetwokConnection {
 		out = new PrintWriter(outStream);
 	}
 	
-	public 
+	public void send(String msg)
+	{
+		String command = "SEND " + msg;
+		out.print(command);
+		out.flush();
+	}
 	
-	public void destructor () throws IOException
+	public void fetch()
+	{
+		String command = "FETCH";
+		out.print(command);
+		out.flush();
+	}
+	
+	public void join(String user)
+	{
+		String command = "JOIN " + user;
+		out.print(command);
+		out.flush();
+	}
+	
+	public void list()
+	{
+		String command = "LIST";
+		out.print(command);
+		out.flush();
+	}
+	
+	public void whisper(String id, String msg)
+	{
+		String command = "WHISPER " + id + " " + msg;
+		out.print(command);
+		out.flush();
+	}
+	
+	public void getMessage(String msg){
+		message=msg;
+	}
+	
+	public void destructor() throws IOException
 	{
 		socket.close();
 	}

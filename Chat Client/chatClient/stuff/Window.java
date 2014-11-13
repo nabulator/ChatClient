@@ -12,6 +12,5 @@ public class Window
 	public Window()
 	{
 		userText = new JTextArea();
-		
 	}
 }

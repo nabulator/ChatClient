@@ -3,7 +3,7 @@ package stuff;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-public class NetwokConnection {
+public class NetwokConnection implements Runnable {
 	
 	private Socket socket;
 	private Scanner in;
@@ -53,6 +53,11 @@ public class NetwokConnection {
 	{
 		out.print("SEND " + msg);
 		out.flush();
+	}
+	
+	public void run()
+	{
+		fetch();
 	}
 	
 	/**

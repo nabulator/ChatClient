@@ -15,16 +15,16 @@ public class Window
 	private JRadioButton textButton;
 	private JPanel panel;
 	
-	public Window(NetwokConnection network)
+	public Window()
 	{
 		this.network = network;
 		frame = new JFrame();
 		userText = new JTextArea();
+		userText.
+		userText.setSize(200, 200);
 		chat = new JLabel();
 		textButton = new JRadioButton();
 				
-		frame.add(userText, BorderLayout.SOUTH);
-		frame.add(chat, BorderLayout.CENTER);
 		frame.add(textButton, BorderLayout.SOUTH);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +43,9 @@ public class Window
 		}
 		panel = new JPanel();
 		textButton.addActionListener(new ChatListener());
-		panel.add(chat);
+		panel.add(userText);
 		panel.add(textButton);
+		
+		frame.add(panel, BorderLayout.SOUTH);
 	}
 }

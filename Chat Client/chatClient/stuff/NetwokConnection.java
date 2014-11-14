@@ -27,7 +27,7 @@ public class NetwokConnection {
 	
 	public void getCommnad(String msg)
 	{
-		
+		//d
 	}
 	
 	public void destructor() throws IOException

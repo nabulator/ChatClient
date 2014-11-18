@@ -3,6 +3,10 @@ package stuff;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+/**
+ * This class has been deprecated for networkin/out
+ * @author brian
+ */
 public class NetwokConnection implements Runnable {
 	
 	private Socket socket;

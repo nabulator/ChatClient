@@ -25,6 +25,7 @@ public class Window implements Runnable
 		
 		createUserText();
 		createChatText();
+		createButton();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -54,8 +55,8 @@ public class Window implements Runnable
 		JScrollPane scrollPane = new JScrollPane(chatText);
 		frame.add(scrollPane);
 	}
-
-	public void run() 
+	
+	public void createButton()
 	{
 		class ChatListener implements ActionListener
 		{
@@ -89,5 +90,13 @@ public class Window implements Runnable
 		}
 		
 		textButton.addActionListener(new ChatListener());
+	}
+
+	/**
+	 * Updates the screen as long as login every few seconds
+	 */
+	public void run() 
+	{
+		System.out.println("update");
 	}
 }

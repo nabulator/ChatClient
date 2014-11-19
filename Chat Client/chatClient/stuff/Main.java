@@ -6,7 +6,7 @@ public class Main {
 	
 		Window w = new Window(null);
 		Thread t = new Thread(w);
-		t.start();
+		t.start(); //adf
 	}
 
 }

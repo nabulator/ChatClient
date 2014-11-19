@@ -1,51 +1,93 @@
 package stuff;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
-public class Window 
+public class Window implements Runnable 
 {
-	private NetwokConnection network;
+	private NetworkConnection network;
 	private JFrame frame;
-	private JTextArea userText;
-	private JLabel chat;
-	private JRadioButton textButton;
-	private JPanel panel;
+	private JTextArea userText, chatText;
+	private JButton textButton;
 	
-	public Window()
+	public final int FRAME_LENGTH = 300;
+	public final int FRAME_WIDTH = 400;
+	
+	public Window(NetworkConnection network)
 	{
 		this.network = network;
 		frame = new JFrame();
-		userText = new JTextArea();
-		userText.
-		userText.setSize(200, 200);
-		chat = new JLabel();
-		textButton = new JRadioButton();
-				
-		frame.add(textButton, BorderLayout.SOUTH);
+		frame.setSize(FRAME_LENGTH, FRAME_WIDTH);
+		
+		createUserText();
+		createChatText();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.setSize(300, 400);
 	}
 	
-	public void createUserText()
+	private void createUserText()
+	{
+		final int TEXT_ROWS = 3;
+		final int TEXT_COLUMNS = 17;
+		userText = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
+		JScrollPane scrollPane = new JScrollPane(userText);
+		
+		textButton = new JButton("Send");
+
+		JPanel panel = new JPanel();
+		panel.add(scrollPane);
+		panel.add(textButton);
+		panel.setBorder(new TitledBorder(new EtchedBorder(), "Enter Chat"));
+		
+		frame.add(panel, BorderLayout.SOUTH);
+	}
+	
+	private void createChatText()
+	{
+		chatText = new JTextArea();
+		chatText.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(chatText);
+		frame.add(scrollPane);
+	}
+
+	public void run() 
 	{
 		class ChatListener implements ActionListener
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				network.setText(userText.getText());
+				String text = userText.getText();
+				if(text.length() > 0)
+				{
+					if(text.charAt(0) == '/')
+					{
+						String command;
+						if(text.contains(" "))
+							command = text.substring(1, text.indexOf(" "));
+						else
+							command = text;
+						
+						/*
+						 * FIX THIS METHOD NAME
+						 */
+						network.runCommnad(command);
+					}
+					else
+						network.sendMsg(text);
+				}
+				
+//				if(userText.getText().length() > 0)
+//					chatText.append(">" + userText.getText() + "\n");
+				
+				userText.setText("");
 			}
 		}
-		panel = new JPanel();
-		textButton.addActionListener(new ChatListener());
-		panel.add(userText);
-		panel.add(textButton);
 		
-		frame.add(panel, BorderLayout.SOUTH);
+		textButton.addActionListener(new ChatListener());
 	}
 }

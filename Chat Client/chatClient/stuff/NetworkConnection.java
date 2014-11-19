@@ -8,14 +8,14 @@ import java.util.*;
  * This class has been deprecated for networkin/out
  * @author brian
  */
-public class NetwokConnection implements Runnable {
+public class NetworkConnection implements Runnable {
 	
 	private Socket socket;
 	private Scanner in;
 	private PrintWriter out;
 	private String command;
 	
-	public NetwokConnection(String host, int port) throws IOException
+	public NetworkConnection(String host, int port) throws IOException
 	{
 		socket = new Socket(host, port);
 		InputStream inStream = socket.getInputStream();

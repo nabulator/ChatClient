@@ -7,19 +7,24 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class Window implements Runnable 
+public class Window
 {
-	private NetworkConnection network;
+	private NetworkIn in;
+	private NetworkOut out;
 	private JFrame frame;
-	private JTextArea userText, chatText;
+	private JTextArea userTextBox, chatTextBox;
 	private JButton textButton;
+	private String chatText;
+
 	
 	public final int FRAME_LENGTH = 300;
 	public final int FRAME_WIDTH = 400;
 	
-	public Window(NetworkConnection network)
+	public Window(NetworkIn in, NetworkOut out)
 	{
-		this.network = network;
+		this.in = in;
+		this.out = out;
+		chatText = "";
 		frame = new JFrame();
 		frame.setSize(FRAME_LENGTH, FRAME_WIDTH);
 		
@@ -35,8 +40,8 @@ public class Window implements Runnable
 	{
 		final int TEXT_ROWS = 3;
 		final int TEXT_COLUMNS = 17;
-		userText = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
-		JScrollPane scrollPane = new JScrollPane(userText);
+		userTextBox = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
+		JScrollPane scrollPane = new JScrollPane(userTextBox);
 		
 		textButton = new JButton("Send");
 
@@ -50,9 +55,9 @@ public class Window implements Runnable
 	
 	private void createChatText()
 	{
-		chatText = new JTextArea();
-		chatText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(chatText);
+		chatTextBox = new JTextArea();
+		chatTextBox.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(chatTextBox);
 		frame.add(scrollPane);
 	}
 	
@@ -62,41 +67,26 @@ public class Window implements Runnable
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				String text = userText.getText();
+				String text = userTextBox.getText();
 				if(text.length() > 0)
 				{
 					if(text.charAt(0) == '/')
-					{
-						String command;
-						if(text.contains(" "))
-							command = text.substring(1, text.indexOf(" "));
-						else
-							command = text;
-						
-						/*
-						 * FIX THIS METHOD NAME
-						 */
-						network.runCommnad(command);
-					}
+						out.runCommand( text.substring(1, text.length()) );
 					else
-						network.sendMsg(text);
+						out.runCommand("SEND " + text);
 				}
 				
-//				if(userText.getText().length() > 0)
-//					chatText.append(">" + userText.getText() + "\n");
-				
-				userText.setText("");
+				//clears text box
+				userTextBox.setText("");
 			}
 		}
 		
 		textButton.addActionListener(new ChatListener());
 	}
-
-	/**
-	 * Updates the screen as long as login every few seconds
-	 */
-	public void run() 
+	
+	public void addDisplayText( String s )
 	{
-		System.out.println("update");
+		chatText += s;
 	}
+	
 }

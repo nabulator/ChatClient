@@ -19,7 +19,7 @@ public class NetworkOut implements Runnable{
 	}
 	
 	/**
-	 * Runs the user command
+	 * Runs the user command & checks user input
 	 * @param command the command sent
 	 */
 	public void runCommand(String command)

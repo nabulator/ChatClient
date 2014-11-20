@@ -4,9 +4,10 @@ public class Main {
 
 	public static void main(String[] args) {
 	
-		Window w = new Window(null);
-		Thread t = new Thread(w);
-		t.start(); //adf
+		Window w = new Window(null, null);
+		NetworkIn in = new NetworkIn(null, w);
+		
+		Thread t = new Thread(in);
 	}
 
 }

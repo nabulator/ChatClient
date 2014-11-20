@@ -1,7 +1,11 @@
 package stuff;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+
+import javax.swing.Timer;
 
 /**
  * A thread to get input
@@ -11,17 +15,27 @@ import java.util.StringTokenizer;
 public class NetworkIn implements Runnable{
 	
 	private Scanner in;
-	private String output;
+	private Timer refreshScreen;
+	private Window w;
 	
-	public NetworkIn(Scanner in,  String output)
+	public NetworkIn(Scanner in, Window w)
 	{
 		this.in = in;
-		this.output = output;
+		this.w = w;
+		
+		ActionListener ac = new ActionListener()
+		{
+			public void actionPerformed(ActionEvent ae)
+			{
+				
+			}
+		};
+		refreshScreen = new Timer(1000, ac); //1 second
 	}
 	
 	public void run()
 	{
-		getResults();
+		refreshScreen.start();
 	}
 	
 	public void getResults()
@@ -29,6 +43,7 @@ public class NetworkIn implements Runnable{
 		String results = null;
 		if( in.hasNext() )
 		{
+			results = in.next();
 			StringTokenizer st = new StringTokenizer(results);
 			String protocolCode = st.nextToken();
 			if(protocolCode.charAt(0) == 2)
@@ -37,6 +52,8 @@ public class NetworkIn implements Runnable{
 			results = in.nextLine();
 			
 		}
-		output = output + "\n" + results;
+		w.addDisplayText(results);
 	}
+	
+	
 }

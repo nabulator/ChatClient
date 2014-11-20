@@ -9,7 +9,9 @@ import javax.swing.border.TitledBorder;
 
 public class Window implements Runnable 
 {
-	private NetworkConnection network;
+	private NetworkIn in;
+	private NetworkOut out;
+	
 	private JFrame frame;
 	private JTextArea userText, chatText;
 	private JButton textButton;
@@ -17,9 +19,11 @@ public class Window implements Runnable
 	public final int FRAME_LENGTH = 300;
 	public final int FRAME_WIDTH = 400;
 	
-	public Window(NetworkConnection network)
+	public Window(NetworkIn in, NetworkOut out)
 	{
-		this.network = network;
+		this.in = in;
+		this.out = out;
+		
 		frame = new JFrame();
 		frame.setSize(FRAME_LENGTH, FRAME_WIDTH);
 		
@@ -72,17 +76,11 @@ public class Window implements Runnable
 						else
 							command = text;
 						
-						/*
-						 * FIX THIS METHOD NAME
-						 */
-						network.runCommnad(command);
+						out.runCommand(command);
 					}
 					else
-						network.sendMsg(text);
+						out.runCommand("SEND " + text);
 				}
-				
-//				if(userText.getText().length() > 0)
-//					chatText.append(">" + userText.getText() + "\n");
 				
 				userText.setText("");
 			}

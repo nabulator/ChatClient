@@ -27,7 +27,7 @@ public class NetworkIn implements Runnable{
 		{
 			public void actionPerformed(ActionEvent ae)
 			{
-				
+				getResults();
 			}
 		};
 		refreshScreen = new Timer(1000, ac); //1 second

@@ -9,18 +9,19 @@ import java.util.List;
 public class Server 
 {
 	private static boolean isRunning = true;
-	private static List<Socket> sockets;
+	private static List<ClientConnection> clients;
+	private static List<String> messages;
 	
 	public static void main(String[] args) throws IOException
 	{
 		final int PORT = 9999;
 		ServerSocket server = new ServerSocket(PORT);
-		sockets = new ArrayList<Socket>();
+		clients = new ArrayList<ClientConnection>();
 		
 		while( isRunning )
 		{
 			Socket s = server.accept();
-			sockets.add(s);
+			clients.add( new ClientConnection() )
 			System.out.println("Get client! " + s.getLocalSocketAddress() );
 			
 			ServerService ss = new ServerService(s);

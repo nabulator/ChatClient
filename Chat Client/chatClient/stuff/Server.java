@@ -21,10 +21,11 @@ public class Server
 		while( isRunning )
 		{
 			Socket s = server.accept();
-			clients.add( new ClientConnection() )
+			ClientConnection cc = new ClientConnection(s, messages.size());
+			clients.add( cc );
 			System.out.println("Get client! " + s.getLocalSocketAddress() );
 			
-			ServerService ss = new ServerService(s);
+			ServerService ss = new ServerService( cc, clients );
 			Thread t = new Thread(ss);
 			t.start();
 		}
@@ -39,7 +40,7 @@ public class Server
 	{
 		isRunning = false;
 		
-		for(int i=0; i<sockets.size(); i++)
+		for(int i=0; i<clients.size(); i++)
 		{
 			//TODO cleanup server connections
 		}

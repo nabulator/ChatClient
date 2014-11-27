@@ -8,15 +8,16 @@ import java.util.List;
 
 public class Server 
 {
-	private static boolean isRunning = true;
-	private static List<ClientConnection> clients;
-	private static List<String> messages;
+	private boolean isRunning = true;
+	private List<ClientConnection> clients;
+	private List<String> messages;
 	
-	public static void main(String[] args) throws IOException
+	public Server() throws IOException
 	{
 		final int PORT = 9999;
 		ServerSocket server = new ServerSocket(PORT);
 		clients = new ArrayList<ClientConnection>();
+		messages = new ArrayList<String>();
 		
 		while( isRunning )
 		{
@@ -27,20 +28,19 @@ public class Server
 			
 			ServerService ss = new ServerService( cc, clients );
 			Thread t = new Thread(ss);
-			t.start();
 		}
 	}
 	
-	private void turnOn()
+	public void turnOn()
 	{
 		isRunning = true;
 	}
 	
-	private void turnOff()
+	public void turnOff()
 	{
 		isRunning = false;
 		
-		for(int i=0; i<clients.size(); i++)
+		for(int i=0 ; i < clients.size())
 		{
 			//TODO cleanup server connections
 		}

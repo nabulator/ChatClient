@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 public class ServerService implements Runnable {
 
-	private ClientConnection cc;
+	private ClientConnectison cc;
 	private List<ClientConnection> c;
 	private Scanner in;
 	private PrintWriter out;

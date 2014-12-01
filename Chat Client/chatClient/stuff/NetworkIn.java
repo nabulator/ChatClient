@@ -15,8 +15,8 @@ import javax.swing.Timer;
 public class NetworkIn implements Runnable{
 	
 	private Scanner in;
-	private Timer refreshScreen;
 	private Window w;
+	private Timer refreshScreen;
 	
 	public NetworkIn(Scanner in, Window w)
 	{
@@ -52,7 +52,7 @@ public class NetworkIn implements Runnable{
 			results = in.nextLine();
 			
 		}
-		w.addDisplayText(results);
+		w.addDisplayText( results );
 	}
 	
 	

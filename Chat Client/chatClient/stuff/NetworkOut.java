@@ -22,7 +22,7 @@ public class NetworkOut implements Runnable{
 	 * Runs the user command & checks user input
 	 * @param command the command sent
 	 */
-	public void runCommand(String command)
+	private void runCommand(String command)
 	{
 		String[] commands = { "JOIN", "SEND", "FETCH", "LIST", "WHISPER" };
 		

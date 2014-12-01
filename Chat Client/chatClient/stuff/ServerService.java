@@ -10,15 +10,21 @@ import java.util.StringTokenizer;
 
 public class ServerService implements Runnable {
 
-	private ClientConnectison cc;
-	private List<ClientConnection> c;
+	private ClientConnection cc;
+	private List<String> msgs;
+	private List<ClientConnection> clients;
+
 	private Scanner in;
 	private PrintWriter out;
 	
-	public ServerService(ClientConnection cc, List<ClientConnection> c) 
+	public ServerService(ClientConnection cc, List<String> m, List<ClientConnection> ccs) throws IOException
 	{
 		this.cc = cc;
-		this.c = c;
+		this.msgs = m;
+		this.clients = ccs;
+		
+		in = new Scanner( cc.getSocket().getInputStream() );
+		out = new PrintWriter( cc.getSocket().getOutputStream() );
 	}
 	
 	public void run() 
@@ -65,30 +71,38 @@ public class ServerService implements Runnable {
 		{
 			case "JOIN":
 				String usr = st.nextToken();
+				cc.updateUserName(usr);
 				
 				break;
 			case "SEND":
-				String txt = st.nextToken();
+				String txt = command.substring(5); //removes "SEND "
+				msgs.add(txt);
 				
 				break;
 			case "FETCH":
-				
+				if( cc.getCurrentIndex() <= msgs.size()-1 )
+					out.print("200 OK");
+				else
+					out.print( msgs.get( cc.getCurrentIndex() ));
+				out.flush();
 				break;
 			case "LIST":
-				out.println( c.toString() );
+				out.println( clients.toString() );
 				out.flush();
 				break;
 			case "WHISPER":
 				String id = st.nextToken();
 				String msg = st.nextToken();
-				
+				out.println("Whisper is not implemented by the server :( Sorry");
+				out.flush();
 				break;
 			default:
 			{
-				System.out.println("Bad command: " + command);
+				System.out.println("Bad command by user " + cc.getUser() + " socket ID : " + cc.getSocket().getInetAddress() );
 				out.println("402 BAD COMMAND");
 				out.flush();
 			}
+			System.out.println("Command: " + command + " SOCKET ID: " + cc.getSocket().getLocalAddress() + " |Usr " + cc.getUser());
 			
 		}
 	}

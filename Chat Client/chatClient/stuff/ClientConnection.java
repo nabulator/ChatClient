@@ -2,26 +2,30 @@ package stuff;
 
 import java.net.Socket;
 
+/**
+ * A bunch of dumb variables. Like a strucutre in c
+ * @author 167504
+ *
+ */
 public class ClientConnection {
 	
 	private Socket s;
-	private String username;
-	private int startMsgIndex, currentMsgIndex; 
+	private String userName;
+	private int currentMsgIndex; 
 	private boolean hasJoined;
 	
-	public ClientConnection(Socket sock, int start)
+	public ClientConnection(Socket sock, int currentMsgIndex)
 	{
-		this.s = s;
-		username = s.getLocalAddress().toString();
-		startMsgIndex = start;
-		currentMsgIndex = start;
+		this.s = sock;
+		userName = s.getLocalAddress().toString();
+		this.currentMsgIndex = currentMsgIndex;
 		hasJoined = false;
 	}
 	
 	public void updateUserName(String newName)
 	{	
 		hasJoined = true;
-		username = newName;
+		userName = newName;
 	}
 	
 	public void incrementIndex()
@@ -29,9 +33,14 @@ public class ClientConnection {
 		currentMsgIndex++;
 	}
 	
+	public int getCurrentIndex()
+	{
+		return currentMsgIndex;
+	}
+	
 	public String getUser()
 	{
-		return username;
+		return userName;
 	}
 	
 	public boolean hasJoined()
@@ -42,6 +51,11 @@ public class ClientConnection {
 	public Socket getSocket()
 	{
 		return s;
+	}
+	
+	public String toString()
+	{
+		return userName;
 	}
 
 }

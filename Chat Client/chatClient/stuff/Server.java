@@ -8,41 +8,29 @@ import java.util.List;
 
 public class Server 
 {
-	private boolean isRunning = true;
+	private List<String> msgs;
 	private List<ClientConnection> clients;
-	private List<String> messages;
 	
-	public Server() throws IOException
+	public Server(List<String> m, List<ClientConnection> ccs) throws IOException
 	{
-		final int PORT = 9999;
+		final int PORT = 16001;
 		ServerSocket server = new ServerSocket(PORT);
-		clients = new ArrayList<ClientConnection>();
-		messages = new ArrayList<String>();
+		msgs = m;
+		clients = ccs;
 		
-		while( isRunning )
+		System.out.println("Start Server Franciso !");
+		
+		while( true )
 		{
-			Socket s = server.accept();
-			ClientConnection cc = new ClientConnection(s, messages.size());
-			clients.add( cc );
-			System.out.println("Get client! " + s.getLocalSocketAddress() );
-			
-			ServerService ss = new ServerService( cc, clients );
-			Thread t = new Thread(ss);
+				Socket s = server.accept();
+				ClientConnection cc = new ClientConnection(s, msgs.size() );
+				System.out.println("Get client! " + s.getLocalSocketAddress() );
+				
+				ServerService ss = new ServerService( cc, msgs, clients );
+				Thread t = new Thread(ss);
+				t.run();			
 		}
 	}
-	
-	public void turnOn()
-	{
-		isRunning = true;
-	}
-	
-	public void turnOff()
-	{
-		isRunning = false;
 		
-		for(int i=0 ; i < clients.size())
-		{
-			//TODO cleanup server connections
-		}
-	}
+	//TODO cleanup connections? probably not
 }

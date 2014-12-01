@@ -2,6 +2,7 @@ package stuff;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.PrintWriter;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -9,22 +10,20 @@ import javax.swing.border.TitledBorder;
 
 public class Window
 {
-	private NetworkIn in;
-	private NetworkOut out;
+
 	private JFrame frame;
 	private JTextArea userTextBox, chatTextBox;
 	private JButton textButton;
 	private String chatText;
-
+	private PrintWriter pw;
 	
 	public final int FRAME_LENGTH = 300;
 	public final int FRAME_WIDTH = 400;
 	
-	public Window(NetworkIn in, NetworkOut out)
+	public Window(PrintWriter pw)
 	{
-		this.in = in;
-		this.out = out;
 		chatText = "";
+		this.pw = pw;
 		frame = new JFrame();
 		frame.setSize(FRAME_LENGTH, FRAME_WIDTH);
 		
@@ -70,10 +69,15 @@ public class Window
 				String text = userTextBox.getText();
 				if(text.length() > 0)
 				{
+					NetworkOut out;
+					
 					if(text.charAt(0) == '/')
-						out.runCommand( text.substring(1, text.length()) );
+						out = new NetworkOut(pw, text.substring(1, text.length()) );
 					else
-						out.runCommand("SEND " + text);
+						out = new NetworkOut(pw, "SEND " + text);
+					
+					Thread t = new Thread(out);
+					t.run();
 				}
 				
 				//clears text box

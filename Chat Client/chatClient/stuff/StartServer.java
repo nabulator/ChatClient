@@ -13,7 +13,7 @@ public class StartServer {
 		List<String> messages = new ArrayList<String>();
 		
 		Server s = new Server(messages, clients);
-
+		
 	}
 
 }

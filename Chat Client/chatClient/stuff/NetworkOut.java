@@ -32,9 +32,10 @@ public class NetworkOut implements Runnable{
 		boolean found = false;
 		for( int i=0 ; i<commands.length ; i++ )
 			if( keyword.equals(commands[i]));
+				found = true;
 		
 		if( !found )
-			throw new IllegalArgumentException("Bad command");
+			throw new IllegalArgumentException("Bad command: " + command);
 		
 		out.print(command);
 		out.flush();

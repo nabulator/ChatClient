@@ -13,7 +13,7 @@ public class Server
 	
 	public Server(List<String> m, List<ClientConnection> ccs) throws IOException
 	{
-		final int PORT = 16001;
+		final int PORT = 16002;
 		ServerSocket server = new ServerSocket(PORT);
 		msgs = m;
 		clients = ccs;

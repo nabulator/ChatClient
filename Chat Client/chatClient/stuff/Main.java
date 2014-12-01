@@ -10,12 +10,12 @@ public class Main {
 	public static void main(String[] args) throws IOException
 	{
 		String ip = "127.0.0.1";
-		int port = 16001;
+		int port = 16002;
 		
 		Socket s = new Socket(ip, port);
 		Scanner scan = new Scanner( s.getInputStream() );
 		PrintWriter pw = new PrintWriter( s.getOutputStream() );
-		Window w = new Window(pw);
+		Window w = new Window(null);
 		NetworkIn in = new NetworkIn( scan, w );
 		
 		Thread t = new Thread(in);

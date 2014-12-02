@@ -19,9 +19,8 @@ public class Main {
 		NetworkIn in = new NetworkIn( scan, w );
 		
 		Thread t1 = new Thread(w);
-		Thread t2 = new Thread(in);
 		t1.run();
-		//t2.run();
+		in.start();
 	}
 
 }

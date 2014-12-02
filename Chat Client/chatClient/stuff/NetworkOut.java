@@ -39,7 +39,7 @@ public class NetworkOut implements Runnable{
 		
 		System.out.println(command);
 		
-		out.print(command);
+		out.println(command);
 		out.flush();
 	}
 

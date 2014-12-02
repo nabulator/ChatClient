@@ -12,7 +12,7 @@ import javax.swing.Timer;
  * @author brian
  *
  */
-public class NetworkIn implements Runnable{
+public class NetworkIn {
 	
 	private Scanner in;
 	private Window w;
@@ -28,14 +28,16 @@ public class NetworkIn implements Runnable{
 			public void actionPerformed(ActionEvent ae)
 			{
 				getResults();
+				System.out.println("run");
 			}
 		};
-		refreshScreen = new Timer(1000, ac); //1 second
+		refreshScreen = new Timer(10, ac); //1 second
 	}
 	
-	public void run()
+	public void start()
 	{
 		refreshScreen.start();
+		refreshScreen.setRepeats(true);
 	}
 	
 	public void getResults()

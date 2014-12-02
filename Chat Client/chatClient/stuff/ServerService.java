@@ -23,8 +23,8 @@ public class ServerService implements Runnable {
 		this.msgs = m;
 		this.clients = ccs;
 		
-		in = new Scanner( cc.getSocket().getInputStream() );
-		out = new PrintWriter( cc.getSocket().getOutputStream() );
+		//in = new Scanner( cc.getSocket().getInputStream() );
+		//out = new PrintWriter( cc.getSocket().getOutputStream() );
 	}
 	
 	public void run() 
@@ -52,18 +52,21 @@ public class ServerService implements Runnable {
 	
 	public void doService ()
 	{
+		System.out.println("SS: Start Do service" );
 		while(true)
 		{
 			if( in.hasNext() )
 			{
-				String command = in.next();
+				System.out.println("Got next!");
+				String command = in.nextLine();
 				executeCommnand(command);
-			}			
+			}
 		}
 	}
 	
 	public void executeCommnand(String command)
 	{
+		String copyOfCommand = new String(command);
 		StringTokenizer st = new StringTokenizer(command);
 		String keyword = st.nextToken();
 		
@@ -75,7 +78,7 @@ public class ServerService implements Runnable {
 				
 				break;
 			case "SEND":
-				String txt = command.substring(5); //removes "SEND "
+				String txt = copyOfCommand.substring(5); //removes "SEND "
 				msgs.add(txt);
 				
 				break;
@@ -102,9 +105,8 @@ public class ServerService implements Runnable {
 				out.println("402 BAD COMMAND");
 				out.flush();
 			}
-			System.out.println("Command: " + command + " SOCKET ID: " + cc.getSocket().getLocalAddress() + " |Usr " + cc.getUser());
-			
 		}
+		System.out.println("Command: " + command + " SOCKET ID: " + cc.getSocket().getLocalAddress() + " |Usr " + cc.getUser());
 	}
 
 }

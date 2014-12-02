@@ -37,6 +37,8 @@ public class NetworkOut implements Runnable{
 		if( !found )
 			throw new IllegalArgumentException("Bad command: " + command);
 		
+		System.out.println(command);
+		
 		out.print(command);
 		out.flush();
 	}

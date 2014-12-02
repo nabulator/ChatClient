@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class Window
+public class Window implements Runnable
 {
 
 	private JFrame frame;
@@ -31,6 +31,10 @@ public class Window
 		createChatText();
 		createButton();
 		
+	}
+	
+	public void run ()
+	{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		System.out.println("Initialized JQBark Client");

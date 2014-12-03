@@ -28,7 +28,7 @@ public class Server
 				
 				ServerService ss = new ServerService( cc, msgs, clients );
 				Thread t = new Thread(ss);
-				t.run();
+				t.start();
 				System.out.println("Actived ServerService Thread");
 		}
 	}

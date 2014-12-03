@@ -71,26 +71,37 @@ public class Window implements Runnable
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				String text = userTextBox.getText();
-				if(text.length() > 0)
 				{
-					NetworkOut out;
-					
-					if(text.charAt(0) == '/')
-						out = new NetworkOut(pw, text.substring(1, text.length()) );
-					else
-						out = new NetworkOut(pw, "SEND " + text);
-					
-					Thread t = new Thread(out);
-					t.run();
+					enterText();
 				}
-				
-				//clears text box
-				userTextBox.setText("");
 			}
 		}
 		
+		class KeyboardListener implements KeyListener
+		{
+			public void keyPressed(KeyEvent arg0) 
+			{
+				if(arg0.equals(KeyEvent.VK_ENTER))
+				{
+					enterText();
+				}
+			}
+			public void keyReleased(KeyEvent arg0) 
+			{
+				
+			}
+
+			public void keyTyped(KeyEvent arg0) 
+			{
+				if(arg0.equals(KeyEvent.VK_ENTER))
+				{
+					enterText();
+				}
+			}
+			
+		}
 		textButton.addActionListener(new ChatListener());
+		userTextBox.addKeyListener(new KeyboardListener());
 	}
 	
 	public void addDisplayText( String s )
@@ -104,6 +115,25 @@ public class Window implements Runnable
 		NetworkOut out = new NetworkOut(pw, "FETCH");
 		Thread t = new Thread(out);
 		t.run();
+	}
+	
+	public void enterText()
+	{
+		String text = userTextBox.getText();
+		if(text.length() > 0)
+		{
+			NetworkOut out;
+			
+			if(text.charAt(0) == '/')
+				out = new NetworkOut(pw, text.substring(1, text.length()) );
+			else
+				out = new NetworkOut(pw, "SEND " + text);
+			
+			Thread t = new Thread(out);
+			t.run();
+		}
+		//clears text box
+		userTextBox.setText("");
 	}
 	
 }

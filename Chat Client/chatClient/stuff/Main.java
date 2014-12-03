@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException
 	{
-		String ip = "192.168.1.12";
+		String ip = "10.5.100.93";
 		int port = 16002;
 		
 		Socket s = new Socket(ip, port);
@@ -17,6 +17,8 @@ public class Main {
 		PrintWriter pw = new PrintWriter( s.getOutputStream() );
 		Window w = new Window(pw);
 		NetworkIn in = new NetworkIn( scan, w );
+		
+		System.out.println(" FQBark Client Sucessful init");
 		
 		Thread t1 = new Thread(w);
 		t1.run();

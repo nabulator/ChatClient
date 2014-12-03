@@ -95,7 +95,15 @@ public class Window implements Runnable
 	
 	public void addDisplayText( String s )
 	{
-		chatText += s;
+		chatText += s + "\n";
+		chatTextBox.setText( chatText );
+	}
+	
+	public void callFetch()
+	{
+		NetworkOut out = new NetworkOut(pw, "FETCH");
+		Thread t = new Thread(out);
+		t.run();
 	}
 	
 }

@@ -24,6 +24,7 @@ public class NetworkOut implements Runnable{
 	 */
 	private void runCommand(String command)
 	{
+		
 		String[] commands = { "JOIN", "SEND", "FETCH", "LIST", "WHISPER" };
 		
 		StringTokenizer st = new StringTokenizer(command);
@@ -37,7 +38,7 @@ public class NetworkOut implements Runnable{
 		if( !found )
 			throw new IllegalArgumentException("Bad command: " + command);
 		
-		System.out.println(command);
+		//System.out.println(command);
 		
 		out.println(command);
 		out.flush();

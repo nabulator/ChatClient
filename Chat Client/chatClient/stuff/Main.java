@@ -20,7 +20,6 @@ public class Main {
 		
 		Thread t1 = new Thread(w);
 		t1.run();
-		in.start();
 	}
 
 }

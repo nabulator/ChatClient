@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A thread to get input
@@ -23,38 +24,43 @@ public class NetworkIn {
 		this.in = in;
 		this.w = w;
 		
-		ActionListener ac = new ActionListener()
+		class PoopClass extends TimerTask
 		{
-			public void actionPerformed(ActionEvent ae)
-			{
-				getResults();
-				System.out.println("run");
+			public void run() {
+				getResults();				
 			}
-		};
-		refreshScreen = new Timer(10, ac); //1 second
+			
+		}
+		
+		PoopClass poop = new PoopClass();
+		
+		refreshScreen = new Timer();
+		refreshScreen.scheduleAtFixedRate(poop, 1000, 1000);
 	}
 	
-	public void start()
-	{
-		refreshScreen.start();
-		refreshScreen.setRepeats(true);
-	}
 	
+	/**
+	 * Removes success messages "2xx "
+	 */
 	public void getResults()
 	{
+		w.callFetch();
+		
 		String results = null;
 		if( in.hasNext() )
 		{
 			results = in.next();
 			StringTokenizer st = new StringTokenizer(results);
 			String protocolCode = st.nextToken();
-			if(protocolCode.charAt(0) == 2)
-				results = results.substring(4, results.length());
+			if(protocolCode.charAt(0) == '2')
+				results = results.substring(3, results.length());
 			
 			results = in.nextLine();
 			
 		}
-		w.addDisplayText( results );
+		//System.out.println("\"" + results + "\"");
+		if( results.length() > 0 )
+			w.addDisplayText( results );
 	}
 	
 	

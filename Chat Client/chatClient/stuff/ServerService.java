@@ -52,12 +52,10 @@ public class ServerService implements Runnable {
 	
 	public void doService ()
 	{
-		System.out.println("SS: Start Do service" );
 		while(true)
 		{
 			if( in.hasNext() )
 			{
-				System.out.println("Got next!");
 				String command = in.nextLine();
 				executeCommnand(command);
 			}
@@ -68,7 +66,7 @@ public class ServerService implements Runnable {
 	{
 		String copyOfCommand = new String(command);
 		StringTokenizer st = new StringTokenizer(command);
-		String keyword = st.nextToken();
+		String keyword = st.hasMoreTokens() ? st.nextToken().toUpperCase() : "NO_TOKEN";
 		
 		switch(keyword)
 		{
@@ -79,18 +77,29 @@ public class ServerService implements Runnable {
 				break;
 			case "SEND":
 				String txt = copyOfCommand.substring(5); //removes "SEND "
-				msgs.add(txt);
+				msgs.add(this.cc.getUser() + ": " + txt);
 				
 				break;
 			case "FETCH":
-				if( cc.getCurrentIndex() <= msgs.size()-1 )
-					out.print("200 OK");
+				
+				String fetchedText;
+				if( cc.getCurrentIndex() < msgs.size() ) //client is behind
+				{
+					fetchedText = "200 " + msgs.get( cc.getCurrentIndex() );
+					cc.incrementIndex();
+				}
+				else if ( cc.getCurrentIndex() == msgs.size() )	//client already up to date
+					fetchedText = "201";
 				else
-					out.print( msgs.get( cc.getCurrentIndex() ));
+					fetchedText = "401 BADID " + cc.getCurrentIndex();
+				
+				//System.out.println("OUT " + fetchedText );
+				out.println( fetchedText );
 				out.flush();
 				break;
+				
 			case "LIST":
-				out.println( clients.toString() );
+				out.println( "200 Users Online: " + clients.size() + " " + clients.toString() );
 				out.flush();
 				break;
 			case "WHISPER":
@@ -106,7 +115,7 @@ public class ServerService implements Runnable {
 				out.flush();
 			}
 		}
-		System.out.println("Command: " + command + " SOCKET ID: " + cc.getSocket().getLocalAddress() + " |Usr " + cc.getUser());
+		System.out.println("Usr " + cc.getUser() +"\t Socket " + cc.getSocket().getLocalAddress() +"\t Cmd " + command);
 	}
 
 }

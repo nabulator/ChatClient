@@ -24,7 +24,7 @@ public class Server
 		{
 				Socket s = server.accept();
 				ClientConnection cc = new ClientConnection(s, msgs.size() );
-				System.out.println("Get client! " + s.getLocalSocketAddress() );
+				System.out.println("Get client! " + s.getLocalSocketAddress()  );
 				
 				ServerService ss = new ServerService( cc, msgs, clients );
 				Thread t = new Thread(ss);

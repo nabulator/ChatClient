@@ -127,6 +127,5 @@ public class Window implements Runnable
 		}
 		userTextBox.requestFocus();
 		userTextBox.setText("");
-	}
-	
+	}	
 }

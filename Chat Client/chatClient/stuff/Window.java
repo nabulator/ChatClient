@@ -33,7 +33,7 @@ public class Window implements Runnable
 		
 	}
 	
-	public void run ()
+	public void run()
 	{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -55,6 +55,26 @@ public class Window implements Runnable
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Enter Chat"));
 		
 		frame.add(panel, BorderLayout.SOUTH);
+		
+		class KeyboardListener implements KeyListener
+		{
+			public void keyPressed(KeyEvent arg0) 
+			{
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					enterText();
+				}
+			}
+			public void keyReleased(KeyEvent arg0) 
+			{
+			}
+
+			public void keyTyped(KeyEvent arg0) 
+			{
+			}
+		}
+		userTextBox.addKeyListener(new KeyboardListener());
+		
 	}
 	
 	private void createChatText()
@@ -65,43 +85,16 @@ public class Window implements Runnable
 		frame.add(scrollPane);
 	}
 	
-	public void createButton()
+	private void createButton()
 	{
 		class ChatListener implements ActionListener
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				{
-					enterText();
-				}
+				enterText();
 			}
-		}
-		
-		class KeyboardListener implements KeyListener
-		{
-			public void keyPressed(KeyEvent arg0) 
-			{
-				if(arg0.equals(KeyEvent.VK_ENTER))
-				{
-					enterText();
-				}
-			}
-			public void keyReleased(KeyEvent arg0) 
-			{
-				
-			}
-
-			public void keyTyped(KeyEvent arg0) 
-			{
-				if(arg0.equals(KeyEvent.VK_ENTER))
-				{
-					enterText();
-				}
-			}
-			
 		}
 		textButton.addActionListener(new ChatListener());
-		userTextBox.addKeyListener(new KeyboardListener());
 	}
 	
 	public void addDisplayText( String s )
@@ -132,7 +125,7 @@ public class Window implements Runnable
 			Thread t = new Thread(out);
 			t.run();
 		}
-		//clears text box
+		userTextBox.requestFocus();
 		userTextBox.setText("");
 	}
 	

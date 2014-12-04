@@ -74,7 +74,6 @@ public class Window implements Runnable
 			}
 		}
 		userTextBox.addKeyListener(new KeyboardListener());
-		
 	}
 	
 	private void createChatText()

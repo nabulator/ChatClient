@@ -24,6 +24,7 @@ public class Server
 		{
 				Socket s = server.accept();
 				ClientConnection cc = new ClientConnection(s, msgs.size() );
+				ccs.add(cc);
 				System.out.println("Get client! " + s.getLocalSocketAddress()  );
 				
 				ServerService ss = new ServerService( cc, msgs, clients );

@@ -72,8 +72,20 @@ public class ServerService implements Runnable {
 		{
 			case "JOIN":
 				String usr = st.nextToken();
-				cc.updateUserName(usr);
+
+				//check if string already used
+				boolean nameTaken = false;
+				for( int i=0 ; i<clients.size() && ! nameTaken ; i++ )
+					if( clients.get(i).getUser().equals( usr ) )
+						nameTaken = true;
 				
+				if( ! nameTaken )
+					cc.updateUserName(usr);
+				else
+				{
+					out.println("421 Bad UserName");
+					out.flush();
+				}				
 				break;
 			case "SEND":
 				String txt = copyOfCommand.substring(5); //removes "SEND "

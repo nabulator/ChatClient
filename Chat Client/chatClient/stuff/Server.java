@@ -30,6 +30,7 @@ public class Server
 				Thread t = new Thread(ss);
 				t.start();
 				System.out.println("Actived ServerService Thread");
+	
 		}
 	}
 		

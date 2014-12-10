@@ -12,7 +12,8 @@ public class Window implements Runnable
 {
 
 	private JFrame frame;
-	private JTextArea userTextBox, chatTextBox;
+	private JTextArea chatTextBox;
+	private JTextField userTextBox;
 	private JButton textButton;
 	private String chatText;
 	private PrintWriter pw;
@@ -42,9 +43,8 @@ public class Window implements Runnable
 	
 	private void createUserText()
 	{
-		final int TEXT_ROWS = 3;
 		final int TEXT_COLUMNS = 17;
-		userTextBox = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
+		userTextBox = new JTextField(TEXT_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(userTextBox);
 		
 		textButton = new JButton("Send");

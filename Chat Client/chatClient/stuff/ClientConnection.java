@@ -1,6 +1,7 @@
 package stuff;
 
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * A bunch of dumb variables. Like a strucutre in c
@@ -17,7 +18,13 @@ public class ClientConnection {
 	public ClientConnection(Socket sock, int currentMsgIndex)
 	{
 		this.s = sock;
-		userName = s.getLocalAddress().toString();
+		try {
+			userName = s.getInetAddress().getLocalHost().toString();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			userName = new Double(Math.random() * Double.MAX_VALUE).toString();
+			e.printStackTrace();
+		}
 		this.currentMsgIndex = currentMsgIndex;
 		hasJoined = false;
 	}

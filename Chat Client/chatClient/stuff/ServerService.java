@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import jdk.nashorn.internal.runtime.regexp.joni.constants.CCSTATE;
+
 public class ServerService implements Runnable {
 
 	private ClientConnection cc;
@@ -72,7 +74,7 @@ public class ServerService implements Runnable {
 		{
 			case "JOIN":
 				String usr = st.nextToken();
-
+				
 				//check if string already used
 				boolean nameTaken = false;
 				for( int i=0 ; i<clients.size() && ! nameTaken ; i++ )
@@ -89,15 +91,31 @@ public class ServerService implements Runnable {
 				break;
 			case "SEND":
 				String txt = copyOfCommand.substring(5); //removes "SEND "
-				msgs.add(this.cc.getUser() + ": " + txt);
+				msgs.add( "S" + this.cc.getUser() + ": " + txt);
 				
 				break;
 			case "FETCH":
 				
-				String fetchedText;
+				String fetchedText = "";
 				if( cc.getCurrentIndex() < msgs.size() ) //client is behind
 				{
-					fetchedText = "200 " + msgs.get( cc.getCurrentIndex() );
+					String everything = msgs.get( cc.getCurrentIndex() );
+					char flag = everything.charAt(0);
+					
+					if( flag == 'W' ) //checks if whisper
+					{
+						String usrAndMsg = everything.substring(1);
+						StringTokenizer st2 = new StringTokenizer(usrAndMsg);
+						String potentialUser = st2.nextToken();
+						
+						if(cc.getUser().equalsIgnoreCase( potentialUser ) )//checks if the the client is intended recipient
+							fetchedText = "200 " + usrAndMsg.substring( potentialUser.length() + 1 );
+					}
+					else
+					{
+						fetchedText = "200 " + msgs.get( cc.getCurrentIndex() ).substring(1);
+					}
+					
 					cc.incrementIndex();
 				}
 				else if ( cc.getCurrentIndex() == msgs.size() )	//client already up to date
@@ -117,8 +135,14 @@ public class ServerService implements Runnable {
 			case "WHISPER":
 				String id = st.nextToken();
 				String msg = st.nextToken();
-				out.println("400 Whisper is not implemented by the server :( Sorry");
-				out.flush();
+				
+				//TODO check if user exists, warns sender if recipient is bad
+				//ClientConnection found = 
+				
+				msgs.add( "W" + id + " " + this.cc.getUser() + ": " + msg);
+				
+				//out.println("400 Whisper is not implemented by the server :( Sorry");
+				//out.flush();
 			case "PENIS":
 				out.println("You don't get a penis.");
 				out.flush();

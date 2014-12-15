@@ -25,7 +25,7 @@ public class NetworkOut implements Runnable{
 	private void runCommand(String command)
 	{
 		
-		String[] commands = { "JOIN", "SEND", "FETCH", "LIST", "WHISPER" };
+		String[] commands = { "JOIN", "SEND", "FETCH", "LIST", "WHISPER", "DISCONNECT", "PENIS" };
 		
 		StringTokenizer st = new StringTokenizer(command);
 		String keyword = st.nextToken();

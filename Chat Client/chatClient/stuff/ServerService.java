@@ -117,7 +117,10 @@ public class ServerService implements Runnable {
 			case "WHISPER":
 				String id = st.nextToken();
 				String msg = st.nextToken();
-				out.println("Whisper is not implemented by the server :( Sorry");
+				out.println("400 Whisper is not implemented by the server :( Sorry");
+				out.flush();
+			case "PENIS":
+				out.println("You don't get a penis.");
 				out.flush();
 				break;
 			default:

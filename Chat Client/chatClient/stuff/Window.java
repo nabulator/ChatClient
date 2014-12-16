@@ -38,6 +38,23 @@ public class Window implements Runnable
 	{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
+		//add exit prompt
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(frame, 
+		            "Are you sure to close this window?", "Really Closing?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		        	
+		        	NetworkOut out = new NetworkOut(pw, "EXIT");
+		    		Thread t = new Thread(out);
+		    		t.run();
+		            System.exit(0);
+		        }
+		    }
+		});
+		
 		System.out.println("Initialized JQBark Client");
 	}
 	

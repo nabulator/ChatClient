@@ -134,7 +134,8 @@ public class ServerService implements Runnable {
 				break;
 			case "WHISPER":
 				String id = st.nextToken();
-				String msg = st.nextToken();
+				int substringCutoff = new String("whisper").length() + 2 + id.length();
+				String msg = command.substring( substringCutoff );
 				
 				//TODO check if user exists, warns sender if recipient is bad
 				//ClientConnection found = 
@@ -143,6 +144,20 @@ public class ServerService implements Runnable {
 				
 				//out.println("400 Whisper is not implemented by the server :( Sorry");
 				//out.flush();
+				break;
+			case "DISCONNECT":
+			case "EXIT":
+				try {
+					cc.getSocket().close();
+					clients.remove( cc );
+					executeCommnand("SEND " + cc.getUser() + " has quit");
+					out.println("Exited the server!");
+					out.flush();
+				} catch (IOException e) {
+					out.println("Failed to exit!");
+					out.flush();
+					e.printStackTrace();
+				}
 				break;
 			default:
 			{

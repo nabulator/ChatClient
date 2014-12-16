@@ -143,9 +143,6 @@ public class ServerService implements Runnable {
 				
 				//out.println("400 Whisper is not implemented by the server :( Sorry");
 				//out.flush();
-			case "PENIS":
-				out.println("You don't get a penis.");
-				out.flush();
 				break;
 			default:
 			{
